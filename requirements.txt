@@ -7,3 +7,4 @@ location
 asyncio
 bs4
 youtube_dl
+urlib3
