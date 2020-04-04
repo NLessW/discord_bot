@@ -17,7 +17,6 @@ from urllib.request import urlopen, Request
 from datetime import datetime
 
 client = discord.Client()
-token ='Njg4Njg2NjAyODA0OTIwMzY0.Xm9w1A.rxN9WfGOhekNq22zKKYzDU0X_EU' 
 
 
 ############봇 상태############
