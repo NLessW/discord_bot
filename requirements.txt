@@ -3,7 +3,7 @@ discord==1.0.1
 openpyxl==3.0.3
 requests==2.23.0
 request==2019.4.13
-location==0.07
+location==0.0.7
 asyncio==3.4.3
 urlib==1.25.8
 urlib3==1.25.8
