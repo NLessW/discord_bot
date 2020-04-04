@@ -8,4 +8,3 @@ asyncio
 bs4
 youtube_dl
 urllib3
-urllib
