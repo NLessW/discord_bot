@@ -5,6 +5,5 @@ requests
 request
 location
 asyncio
-urllib
 bs4
 youtube_dl
