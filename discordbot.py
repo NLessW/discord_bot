@@ -309,6 +309,7 @@ async def on_message(message):
     if message.content.startswith("!nh업데이트"):
         embed = discord.Embed(color=0x900020, title = "업데이트")
         embed.add_field(name = "2020년 4월 3일 업데이트 내용입니다.", value = "!nh help입력시 나오는 도움말을 더 보기 좋게 정리하였습니다.\n\n\n봇과 관련된 문의는 Peto#6092 ")
+#이 부분은 계속 수정됩니다
         await message.channel.send(embed=embed)
     
 
