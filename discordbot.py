@@ -1,5 +1,4 @@
 import discord
-import os
 import datetime 
 import openpyxl
 import requests
@@ -10,14 +9,15 @@ import random
 import urllib
 import bs4
 import youtube_dl
+import json
+import os
 from discord.ext import commands
 from openpyxl import load_workbook
 from bs4 import BeautifulSoup
 from urllib.request import urlopen, Request
 from datetime import datetime
 
-client = discord.Client()
-
+client = commands.Bot(command_prefix='!nh') 
 
 ############봇 상태############
 @client.event 
@@ -30,6 +30,7 @@ async def on_ready():
 ############인사 말############
 @client.event
 async def on_message(message): 
+    await client.process_commands(message)
 
 ############도움말############
     if message.content.startswith("!nh help"):
@@ -44,6 +45,8 @@ async def on_message(message):
         embed.add_field(name="한강수온", value = "명령어 : !nh한강\n한강의 현재 수온을 보여줍니다.", inline = False)
         embed.add_field(name="주사위", value = "명령어 : !nh주사위 돌릴횟수d면갯수\n주사위를 n번만큼 굴려 합을 구해줍니다.\nex)!nh주사위 3d6 = 6면체주사위를 3번 굴린다.", inline = False)
         embed.add_field(name="카트라이더 전적", value = "명령어 : !nh카트 (닉네임)\n검색한 유저의 전적을 보여줍니다.", inline = False)
+        embed.add_field(name="노래", value = "명령어 : !nh재생\n보이스 채널에 연결합니다.\n아직 재생은 구현중입니다.", inline = False)
+        embed.add_field(name="연결끊기", value = "명령어 : !nh연결끊기\n보이스 채널에 있는 봇의 연결을 끊습니다.", inline = False)
         await message.channel.send(embed=embed)
 
     if message.content.startswith("!nh안녕"):
@@ -56,7 +59,7 @@ async def on_message(message):
 
 ############디스코드 프로필 확인############
     if message.content.startswith("!nh정보"):
-        date = datetime.datetime.utcfromtimestamp(((int(message.author.id) >> 22) + 1420070400000)/1000)
+        date = datetime.utcfromtimestamp(((int(message.author.id) >> 22) + 1420070400000)/1000)
         embed = discord.Embed(color=0x900020)
         embed.add_field(name="이름", value=message.author.name, inline=False)
         embed.add_field(name="서버 닉네임", value=message.author.display_name, inline=False)
@@ -122,7 +125,7 @@ async def on_message(message):
         coembed.add_field(name="💉격리해제💉", value=f'{free}명', inline=False)
         coembed.add_field(name="🔎검사중🔎", value=f'{checking}명', inline=False)
         coembed.add_field(name="👻사망자👻", value=f'{die}명', inline=False)                
-        coembed.set_footer(text="Source - SaidBySolo")
+        coembed.set_footer(text="Source - NextHeroes\nLv2 S2 KartRiderClub NextLv's Bot")
         await message.channel.send(embed = coembed)
 
 ############날씨############
@@ -263,9 +266,12 @@ async def on_message(message):
         embed.add_field(name = "Driving Time", value = racing, inline = True)
         embed.add_field(name = "Game Runs", value = gameon, inline = True)
         embed.add_field(name = "Recent Access", value = f'{recenty}년 '+f'{recentm}월 '+f'{recentd}일')
+        embed.add_field(name="TMI",value=f'[KartRiderTMI](https://tmi.nexon.com/kart/user?nick={nick})')
         embed.set_footer(text="Source - NextHeroes\nLv2 S2 KartRiderClub NextLv's Bot")
         embed.set_thumbnail(url = avatar2)
         await message.channel.send(embed=embed)
+        
+            
 
     if message.content.startswith("!nh공지"):
         file = openpyxl.load_workbook("서버목록.xlsx")
@@ -278,7 +284,7 @@ async def on_message(message):
                 foot = datetime.today().strftime("%Y년 %m월 %d일 %H시 %M분 %S초")
                 embed = discord.Embed(title="넥히봇 공지", description=msg, color=0x900020)  # Embed의 기본 틀(색상, 메인 제목, 설명)을 잡아줍니다
                 embed.set_thumbnail(url='https://cdn.discordapp.com/avatars/688686602804920364/7ca067359e2235dd6c817480adef9075.png?size=128')
-                embed.set_footer(text=foot + "\n봇 관련 문의는 Peto#6092")  # 하단에 들어가는 조그마한 설명을 잡아줍니다
+                embed.set_footer(text=foot + "봇 관련 문의는 Peto#6092")  # 하단에 들어가는 조그마한 설명을 잡아줍니다
                 await client.get_channel(int(channel)).send(embed=embed)
                 break
             if sheet["A" + str(i)].value == None:
@@ -307,12 +313,49 @@ async def on_message(message):
 
     if message.content.startswith("!nh업데이트"):
         embed = discord.Embed(color=0x900020, title = "업데이트")
-        embed.add_field(name = "2020년 4월 3일 업데이트 내용입니다.", value = "!nh help입력시 나오는 도움말을 더 보기 좋게 정리하였습니다.\n\n\n봇과 관련된 문의는 Peto#6092 ")
-#이 부분은 계속 수정됩니다
+        embed.add_field(name = "2020년 4월 9일 업데이트 내용입니다.", value = "카트 전적봇의 TMI 링크가 추가되었습니다")
+        embed.set_footer(text="봇과 관련된 문의는 Peto#6092")
+
         await message.channel.send(embed=embed)
+
+
+    file = openpyxl.load_workbook("레벨.xlsx")
+    sheet = file.active
+    exp = [10, 20, 30, 40, 50]
+    i = 1
+    while True:
+        if sheet["A" + str(i)].value == str(message.author.id):
+            sheet["B" + str(i)].value == sheet["B" + str(i)].value + 5
+            if sheet["B" + str(i)].value >= exp[sheet["C" + str(i)].value]:
+                sheet["C" + str(i)].value = sheet["C" + str(i)].value + 1
+                await message.channel.send("레벨이 올랐습니다.\n현재 레벨 : " + str(sheet["C" + str(i)].value) + "\n경험치 : " + str(sheet["B" + str(i)].value))
+            file.save("레벨.xlsx")
+            break
+            
+            
+            
+        if sheet["A" + str(i)].value == None:
+            sheet["A" + str(i)].value = str(message.author.id)
+            sheet["B" + str(i)].value = 0
+            sheet["C" + str(i)].value = 1
+            file.save("레벨.xlsx")
+            break
+
+        i += 1 
+
     
+    
+@client.command(name="재생", pass_context=True)
+async def _join(ctx):
+    if ctx.author.voice and ctx.author.voice.channel:
+        channel = ctx.author.voice.channel
+        await channel.connect()
+    else:
+        await ctx.send("채널에 연결되지 않았습니다.")
 
+    
+@client.command(name="연결끊기")
+async def _leave(ctx):
+    await client.voice_clients[0].disconnect()
 
-
-
-client.run(token)
+client.run("Token")
