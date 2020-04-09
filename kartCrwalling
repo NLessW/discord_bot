@@ -1,3 +1,10 @@
+#이 부분은 제일 위에 써주세요#
+import discord
+import urllib
+import bs4
+from bs4 import BeautifulSoup
+from urllib.request import urlopen, Request
+
 ############카트############
     if message.content.startswith("!nh카트"):
         response = requests.get('http://kart.nexon.com/Garage/Main?strRiderID='+message.content[5:])
