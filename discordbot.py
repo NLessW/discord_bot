@@ -33,18 +33,30 @@ async def on_message(message):
     await client.process_commands(message)
 
 ############도움말############
-    if message.content.startswith("!nh help"):
-        embed = discord.Embed(color=0x900020, title = '도움말')
+    if message.content.startswith("!nh help") and not message.content.startswith("!nh help 1") and not message.content.startswith("!nh help 2"):
+        embed = discord.Embed(color = 0x900020, title = "!nh help (페이지 1, 2선택)" , desciption = "도움말이 많아 2페이지로 나누었습니다.")
+        await message.channel.send(embed=embed)
+
+    if message.content.startswith("!nh help 1"):
+        embed = discord.Embed(color=0x900020, title = '1 페이지')
         embed.add_field(name="업데이트", value = "명령어 : !nh업데이트\n최신 업데이트 1개를 보여줍니다.", inline = False)
         embed.add_field(name="인사", value = "명령어 : !nh안녕\n인사를 해줍니다.", inline = False)
+        embed.add_field(name="학습", value = "명령어 : !nh학습 (학습시킬 단어) (출력단어) 출력단어에는 띄어쓰기하면 안됩니다.")
+        embed.add_field(name="기억", value = "명령어 : !nh기억 (학습시킨 단어)", inline= False)
         embed.add_field(name="봇 핑 확인", value = "명령어 : !nh ping\n봇의 전송속도 핑을 보여줍니다.", inline = False)
         embed.add_field(name="프로필", value = "명령어 : !nh정보\n본인의 디스코드 프로필을 보여줍니다.", inline = False)
         embed.add_field(name="코로나", value = "명령어 : !nh코로나\n현재 대한민국의 코로나 현황을 보여줍니다.", inline = False)
         embed.add_field(name="날씨", value = "명령어 : !nh날씨 (지역)\n검색한 지역의 날씨를 보여줍니다.", inline = False)
+        await message.channel.send(embed=embed)
+
+    if message.content.startswith("!nh help 2"):
+        embed = discord.Embed(color=0x900020, title = '2 페이지')
         embed.add_field(name="팀나누기", value = "명령어 : !nh팀나누기 (나눌사람의 이름[공백으로 구분]/(팀이름))\n추첨기나 팀 나눌때 사용합니다\n(ex/a b c d를 1팀과 2팀으로 나눌경우 !nh팀나누기 a b c d/1 2 1 2)팀은 꼭 인원수 만큼 써주세요!", inline = False)
         embed.add_field(name="한강수온", value = "명령어 : !nh한강\n한강의 현재 수온을 보여줍니다.", inline = False)
         embed.add_field(name="주사위", value = "명령어 : !nh주사위 돌릴횟수d면갯수\n주사위를 n번만큼 굴려 합을 구해줍니다.\nex)!nh주사위 3d6 = 6면체주사위를 3번 굴린다.", inline = False)
         embed.add_field(name="카트라이더 전적", value = "명령어 : !nh카트 (닉네임)\n검색한 유저의 전적을 보여줍니다.", inline = False)
+        embed.add_field(name="롤 솔로랭크 전적", value =  "명령어 : !nh롤솔랭 (닉네임)\n언랭은 검색해도 나오지 않습니다.\n만약 나오지 않을 시 poro.gg나 op.gg가셔서 전적갱신을 해주시기 바랍니다.", inline=False)
+        embed.add_field(name="롤 언랭 전적", value = "명령어 : !nh롤언랭 (닉네임)\n언랭들을 위한 전적검색입니다.\n만약 나오지 않을 시 poro.gg나 op.gg가셔서 전적갱신을 해주시기 바랍니다.", inline=False)
         embed.add_field(name="노래", value = "명령어 : !nh재생\n보이스 채널에 연결합니다.\n아직 재생은 구현중입니다.", inline = False)
         embed.add_field(name="연결끊기", value = "명령어 : !nh연결끊기\n보이스 채널에 있는 봇의 연결을 끊습니다.", inline = False)
         await message.channel.send(embed=embed)
@@ -202,14 +214,21 @@ async def on_message(message):
 
 ############카트############
     if message.content.startswith("!nh카트"):
-        response = requests.get('http://kart.nexon.com/Garage/Main?strRiderID='+message.content[5:])
-        response2 = requests.get('http://kart.nexon.com/Garage/Record?strRiderID='+message.content[5:])
-       
+        response = requests.get('http://kart.nexon.com/Garage/Main?strRiderID='+message.content[6:])
+        response2 = requests.get('http://kart.nexon.com/Garage/Record?strRiderID='+message.content[6:])
+        response3 = requests.get('https://tmi.nexon.com/kart/user?nick='+message.content[6:])
+
+
         readerhtml = response.text
         readerhtml2 = response2.text
+        readerhtml3 = response3.text
 
         soup = BeautifulSoup(readerhtml, 'lxml')
         soup2 = BeautifulSoup(readerhtml2, 'lxml')
+        soup3 = BeautifulSoup(readerhtml3, 'lxml')
+        
+
+
 
         #차고1#
         nick = soup.find('span', {'id' : 'RiderName'}).text
@@ -251,27 +270,120 @@ async def on_message(message):
         iprallrt = sprate[7].text[0:3]
         iprallrt2 = sprate[7].text[4:]
         iprprank = sprate[8].text
-
-        embed = discord.Embed(color=0x900020, title = message.content[5:])
-        embed.add_field(name = "NickName", value = nick, inline = True)
-        embed.add_field(name = "Club", value = club, inline = True)
-        embed.add_field(name = "RP", value = rprank + "\n" + rp, inline = True)
-        embed.add_field(name = "All Win Rate", value = allwinrate + "\n" + "(" + allwin + ")", inline = True)
-        embed.add_field(name = "Speed Win Rate", value = spallrt + "\n" + "(" + spallrt2 + ")", inline = True)
-        embed.add_field(name = "Item Win Rate", value = iprallrt + "\n" + "(" + iprallrt2 + ")", inline = True)
-        embed.add_field(name = "All RP", value = allwinrp, inline = True)
-        embed.add_field(name = "Speed RP", value = sprprank, inline = True)
-        embed.add_field(name = "Item RP", value = iprprank, inline = True)
-        embed.add_field(name = "Rider Creation", value = f'{starty}년 '+f'{startm}월 '+f'{startd}일' "\n" + startday, inline = True)
-        embed.add_field(name = "Driving Time", value = racing, inline = True)
-        embed.add_field(name = "Game Runs", value = gameon, inline = True)
-        embed.add_field(name = "Recent Access", value = f'{recenty}년 '+f'{recentm}월 '+f'{recentd}일')
-        embed.add_field(name="TMI",value=f'[KartRiderTMI](https://tmi.nexon.com/kart/user?nick={nick})')
-        embed.set_footer(text="Source - NextHeroes\nLv2 S2 KartRiderClub NextLv's Bot")
-        embed.set_thumbnail(url = avatar2)
-        await message.channel.send(embed=embed)
         
-            
+        kartembed = discord.Embed(color=0x900020)
+        if soup3.find('span', {'class' : 'license l1'}):
+            kartembed.set_author(name= nick, icon_url='https://tmi.nexon.com/img/icon_l1.png')
+        elif soup3.find('span',{'class' : 'license l2'}):
+            kartembed.set_author(name= nick, icon_url='https://tmi.nexon.com/img/icon_l2.png')
+        elif soup3.find('span',{'class' : 'license l3'}):
+            kartembed.set_author(name= nick, icon_url='https://tmi.nexon.com/img/icon_l3.png')
+        elif soup3.find('span',{'class' : 'license rookie'}):
+            kartembed.set_author(name= nick, icon_url='https://tmi.nexon.com/img/icon_rookie.png')
+        elif soup3.find('span',{'class' : 'license beginner'}):
+            kartembed.set_author(name= nick, icon_url='https://tmi.nexon.com/img/icon_beginner.png')
+        elif soup3.find('span',{'class' : 'license pro'}):
+            kartembed.set_author(name= nick, icon_url='https://tmi.nexon.com/img/icon_pro.png')
+        else:
+            kartembed.set_author(name= nick)
+
+        kartembed.add_field(name = "Club", value = club, inline = True)
+        kartembed.add_field(name = "RP", value = rprank + "\n" + rp, inline = True)
+        kartembed.add_field(name = "All Win Rate", value = allwinrate + "\n" + "(" + allwin + ")", inline = True)
+        kartembed.add_field(name = "Speed Win Rate", value = spallrt + "\n" + "(" + spallrt2 + ")", inline = True)
+        kartembed.add_field(name = "Item Win Rate", value = iprallrt + "\n" + "(" + iprallrt2 + ")", inline = True)
+        kartembed.add_field(name = "All RP", value = allwinrp, inline = True)
+        kartembed.add_field(name = "Speed RP", value = sprprank, inline = True)
+        kartembed.add_field(name = "Item RP", value = iprprank, inline = True)
+        kartembed.add_field(name = "Rider Creation", value = f'{starty}년 '+f'{startm}월 '+f'{startd}일' "\n" + startday, inline = True)
+        kartembed.add_field(name = "Driving Time", value = racing, inline = True)
+        kartembed.add_field(name = "Game Runs", value = gameon, inline = True)
+        kartembed.add_field(name = "Recent Access", value = f'{recenty}년 '+f'{recentm}월 '+f'{recentd}일')
+        kartembed.add_field(name = "3렙 터졌다!!!!", value = "3렙 도와주실 분을 찾습니다...\n카카오톡 qkqkhih......")
+        kartembed.add_field(name="TMI",value=f'[KartRiderTMI](https://tmi.nexon.com/kart/user?nick={nick})')
+        kartembed.set_footer(text="Source - NextHeroes\nLv2 S2 KartRiderClub NextLv's Bot\n3렙 도와주실분들을 찾습니다..카카오톡 qkqkhih...")
+        kartembed.set_thumbnail(url = avatar2)
+        await message.channel.send(embed=kartembed)
+
+
+############롤 솔랭############        
+    if message.content.startswith("!nh롤솔랭"):
+        response = requests.get('https://www.op.gg/summoner/userName='+message.content[7:]) #롤 전적사이트 op.gg 링크
+        response2 = requests.get('https://poro.gg/ko/s/KR/'+message.content[7:])
+        readerhtml = response.text
+        readerhtml2 = response2.text
+
+        soup = BeautifulSoup(readerhtml, 'lxml')
+        soup2 = BeautifulSoup(readerhtml2, 'lxml')
+
+        profile = soup.find('div',{'class' : 'Profile'}) #profile 크롤링
+        nickname = profile.findAll('span') #닉네임
+        nick = nickname[1].text #닉네임
+        leve = soup.find('div', {'class' : 'Face'})#레벨
+        lev = leve.findAll('span')
+        level = lev[0].text
+        
+        #솔랭
+        win = soup.find('span',{'class' : 'wins'}).text[0:3]
+        lose = soup.find('span',{'class' : 'losses'}).text[0:3]
+        winrate1 = soup2.find('div', {'class' : 'summoner__tier__winrate text-gray'})
+        winrate = winrate1.find('b').text
+        medal = soup2.find('div', {'class' : 'rank-info__tier'})
+        medalimg = medal.find('img').get('src')
+
+        tier1 = soup2.find('div',{'class' : 'summoner__tier__content'})
+        tier = tier1.find('b').text
+        
+        recentrank = soup2.find('div', {'class' : 'recent-match-condition__summary'})
+        recentrate = recentrank.find('span', {'class' : 'recent-match-condition__summary__winrate'}).text
+        recentwinlose = recentrank.find('span',{'class' : 'recent-match-condition__summary__winrate-text'}).text
+        update = soup2.find('div', {'class' : 'summoner-header__profile__updated'}).text
+
+        lolembed = discord.Embed(color=0x900020)
+        lolembed.set_author(name = message.content[7:]+"님의 솔로랭크입니다.")
+        lolembed.add_field(name = "레벨", value = f'{level}레벨', inline = True)            
+        lolembed.add_field(name = "전적", value = f'{win}승 '+"/ "+ f'{lose}패', inline = True)
+        lolembed.add_field(name = "승률", value = f'{winrate}%', inline = True)            
+        lolembed.add_field(name = "티어", value = tier, inline = True)
+        lolembed.add_field(name = "최근 랭크게임", value = recentrate+"\n"+recentwinlose, inline = True)            
+        lolembed.set_thumbnail(url = medalimg)
+        lolembed.set_footer(text = update + "\nSource - NextHeroes\nLv2 S2 KartRiderClub NextLv's Bot")
+        await message.channel.send(embed = lolembed)
+    
+############롤 언랭############
+    if message.content.startswith("!nh롤언랭"):
+        response = requests.get('https://poro.gg/ko/s/KR/'+message.content[7:])
+        response2 = requests.get('https://www.op.gg/summoner/userName='+message.content[7:])
+
+        readerhtml = response.text
+        readerhtml2 = response2.text
+
+        soup = BeautifulSoup(readerhtml, 'lxml')
+        soup2 = BeautifulSoup(readerhtml2, 'lxml')
+
+        nick1 = soup.find('div', {'class' : 'summoner-header__profile__info'})
+        nick = nick1.find('h3').text
+        level = soup.find('div', {'class' : 'summoner-header__profile__level'}).text
+
+        winratio = soup2.find('div',{'class' : 'WinRatioTitle'})
+        spanfind = winratio.findAll('span')
+        win = spanfind[1].text
+        lose = spanfind[2].text
+        update = soup.find('div', {'class' : 'summoner-header__profile__updated'}).text
+        
+        medal = soup.find('div', {'class' : 'rank-info__tier'})
+        medalimg = medal.find('img').get('src')
+        
+        lolembed = discord.Embed(color=0x900020)
+        lolembed.set_author(name = "언랭"+nick+"님 정보입니다.")
+        lolembed.add_field(name = "레벨", value = f'{level}레벨', inline = True)
+        lolembed.add_field(name = "최근 20게임 전적", value = f'{win}승 ' +"/ "+ f'{lose}패', inline = True)
+        lolembed.add_field(name = "랭크를 돌립시다!", value = "랭크가 생기면 더 많은 정보를 받아올 수 있어요!", inline = False)
+        lolembed.set_footer(text=update + "\nSource - NextHeroes\nLv2 S2 KartRiderClub NextLv's Bot")
+        lolembed.set_thumbnail(url = medalimg)
+        await message.channel.send(embed = lolembed)
+
+
 
     if message.content.startswith("!nh공지"):
         file = openpyxl.load_workbook("서버목록.xlsx")
@@ -310,40 +422,7 @@ async def on_message(message):
                 await message.channel.send("정상적으로 설정되었습니다!")
                 break
             i += 1
-
-    if message.content.startswith("!nh업데이트"):
-        embed = discord.Embed(color=0x900020, title = "업데이트")
-        embed.add_field(name = "2020년 4월 9일 업데이트 내용입니다.", value = "카트 전적봇의 TMI 링크가 추가되었습니다")
-        embed.set_footer(text="봇과 관련된 문의는 Peto#6092")
-
-        await message.channel.send(embed=embed)
-
-
-    file = openpyxl.load_workbook("레벨.xlsx")
-    sheet = file.active
-    exp = [10, 20, 30, 40, 50]
-    i = 1
-    while True:
-        if sheet["A" + str(i)].value == str(message.author.id):
-            sheet["B" + str(i)].value == sheet["B" + str(i)].value + 5
-            if sheet["B" + str(i)].value >= exp[sheet["C" + str(i)].value]:
-                sheet["C" + str(i)].value = sheet["C" + str(i)].value + 1
-                await message.channel.send("레벨이 올랐습니다.\n현재 레벨 : " + str(sheet["C" + str(i)].value) + "\n경험치 : " + str(sheet["B" + str(i)].value))
-            file.save("레벨.xlsx")
-            break
-            
-            
-            
-        if sheet["A" + str(i)].value == None:
-            sheet["A" + str(i)].value = str(message.author.id)
-            sheet["B" + str(i)].value = 0
-            sheet["C" + str(i)].value = 1
-            file.save("레벨.xlsx")
-            break
-
-        i += 1 
-
-    
+ 
     
 @client.command(name="재생", pass_context=True)
 async def _join(ctx):
