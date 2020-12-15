@@ -41,18 +41,16 @@ async def on_message(message):
         embed = discord.Embed(color=0x900020, title = '1 페이지')
         embed.add_field(name="업데이트", value = "명령어 : !nh업데이트\n최신 업데이트 1개를 보여줍니다.", inline = False)
         embed.add_field(name="인사", value = "명령어 : !nh안녕\n인사를 해줍니다.", inline = False)
-        embed.add_field(name="학습", value = "명령어 : !nh학습 (학습시킬 단어) (출력단어) 출력단어에는 띄어쓰기하면 안됩니다.")
-        embed.add_field(name="기억", value = "명령어 : !nh기억 (학습시킨 단어)", inline= False)
         embed.add_field(name="봇 핑 확인", value = "명령어 : !nh ping\n봇의 전송속도 핑을 보여줍니다.", inline = False)
         embed.add_field(name="프로필", value = "명령어 : !nh정보\n본인의 디스코드 프로필을 보여줍니다.", inline = False)
-        embed.add_field(name="코로나", value = "명령어 : !nh코로나\n현재 대한민국의 코로나 현황을 보여줍니다.", inline = False)
+        embed.add_field(name="코로나", value = "명령어 : !nh코로나\n현재 대한민국의 코로나 현황을 보여줍니다. 이 기능은 점검중입니다.", inline = False)
         embed.add_field(name="날씨", value = "명령어 : !nh날씨 (지역)\n검색한 지역의 날씨를 보여줍니다.", inline = False)
         await message.channel.send(embed=embed)
 
     if message.content.startswith("!nh help 2"):
         embed = discord.Embed(color=0x900020, title = '2 페이지')
         embed.add_field(name="팀나누기", value = "명령어 : !nh팀나누기 (나눌사람의 이름[공백으로 구분]/(팀이름))\n추첨기나 팀 나눌때 사용합니다\n(ex/a b c d를 1팀과 2팀으로 나눌경우 !nh팀나누기 a b c d/1 2 1 2)팀은 꼭 인원수 만큼 써주세요!", inline = False)
-        embed.add_field(name="한강수온", value = "명령어 : !nh한강\n한강의 현재 수온을 보여줍니다.", inline = False)
+        embed.add_field(name="한강수온", value = "명령어 : !nh한강\n한강의 현재 수온을 보여줍니다. 이 기능은 점검중입니다.", inline = False)
         embed.add_field(name="주사위", value = "명령어 : !nh주사위 돌릴횟수d면갯수\n주사위를 n번만큼 굴려 합을 구해줍니다.\nex)!nh주사위 3d6 = 6면체주사위를 3번 굴린다.", inline = False)
         embed.add_field(name="카트라이더 전적", value = "명령어 : !nh카트 (닉네임)\n검색한 유저의 전적을 보여줍니다.", inline = False)
         embed.add_field(name="롤 솔로랭크 전적", value =  "명령어 : !nh롤솔랭 (닉네임)\n언랭은 검색해도 나오지 않습니다.\n만약 나오지 않을 시 poro.gg나 op.gg가셔서 전적갱신을 해주시기 바랍니다.", inline=False)
@@ -80,65 +78,6 @@ async def on_message(message):
         embed.set_thumbnail(url=message.author.avatar_url)
         await message.channel.send(embed=embed)
 
-############말 가르치기############
-    if message.content.startswith("!nh학습"):
-        file = openpyxl.load_workbook("기억.xlsx")
-        sheet = file.active
-        learn = message.content.split(" ")
-        for i in range(1, 51):
-            if sheet["A" + str(i)].value == "-" or sheet["A" + str(i)].value == learn[1]: 
-                sheet["A" + str(i)].value = learn[1]
-                sheet["B" + str(i)].value = learn[2]
-                await message.channel.send("단어가 학습되었습니다.")
-                break
-        file.save("기억.xlsx")
-    
-    if message.content.startswith("!nh기억") and not message.content.startswith("!nh기억삭제"):
-        file = openpyxl.load_workbook("기억.xlsx")
-        sheet = file.active
-        memory = message.content.split(" ")
-        for i in range(1, 51):
-            if sheet["A" + str(i)].value == memory[1]:
-                await message.channel.send(sheet["B" + str(i)].value)
-                break
-    
-    if message.content.startswith("!nh기억삭제"):
-        file = openpyxl.load_workbook("기억.xlsx")
-        sheet = file.active
-        memory = message.content.split(" ")
-        
-        for i in range(1, 51):
-            if sheet["A" + str(i)].value == str(memory[1]):
-                sheet["A" + str(i)].value = "-"
-                sheet["B" + str(i)].value = "-"
-                await message.channel.send("기억이 삭제되었습니다.")
-                file.save("기억.xlsx")
-                break
-    
-   
-
-
-############코로나############
-    if message.content.startswith("!nh코로나"):
-        response = requests.get('https://search.naver.com/search.naver?sm=tab_hty.top&where=nexearch&query=코로나')
-        readerhtml = response.text
-        soup = BeautifulSoup(readerhtml, 'lxml')
-        data1 = soup.find('div', class_='graph_view')
-        data2 = data1.findAll('div', class_='box')
-        data3 = data1.findAll('div', class_='box bottom')
-        checked = data2[0].find('p', class_='txt').find('strong', class_='num').text
-        checking = data2[2].find('p', class_='txt').find('strong', class_='num').text
-        free = data3[0].find('p', class_='txt').find('strong', class_='num').text        
-        die = data3[1].find('p', class_='txt').find('strong', class_='num').text
-        wasup = soup.find('div', class_='csp_notice_info').find('p').find_all(text=True, recursive=True)
-        
-        coembed = discord.Embed(color=0x900020, title='☣코로나현황☣', description =f'{wasup[1]}' )
-        coembed.add_field(name="☣확진자☣", value=f'{checked}명', inline=False)
-        coembed.add_field(name="💉격리해제💉", value=f'{free}명', inline=False)
-        coembed.add_field(name="🔎검사중🔎", value=f'{checking}명', inline=False)
-        coembed.add_field(name="👻사망자👻", value=f'{die}명', inline=False)                
-        coembed.set_footer(text="Source - NextHeroes\nLv2 S2 KartRiderClub NextLv's Bot")
-        await message.channel.send(embed = coembed)
 
 ############날씨############
     if message.content.startswith("!nh날씨 "):
@@ -183,19 +122,6 @@ async def on_message(message):
         for i in range(0, len(person)):
             embed.add_field(name="결과", value=person[i] + " ----> " + teamname[i], inline = False)
         embed.set_footer(text = "Source - NextHeroes\nLv2 S2 KartRiderClub NextLv's Bot")
-        await message.channel.send(embed=embed)
-
-############한강############
-    if message.content.startswith("!nh한강"):
-        response = requests.get('https://www.wpws.kr/hangang/')
-        readerhtml = response.text
-        soup = BeautifulSoup(readerhtml, 'lxml')
-        tempdata1 = soup.find('p', {'id' : 'temp'}).text
-        tempdata2 = soup.find('p', {'id' : 'foo2'}).text[2:21]
-        embed = discord.Embed(color=0x900020, title = "💧현재 한강의 온도💧")
-        embed.add_field(name="🌡온도", value=tempdata1, inline = False)
-        embed.add_field(name="⌛측정 시간", value=tempdata2, inline = False)
-        embed.set_footer(text="📞자살예방상담전화 : 1393\nLv2 S2 KartRiderClub NextLv's Bot")
         await message.channel.send(embed=embed)
 
 ############주사위############
@@ -412,4 +338,4 @@ async def _join(ctx):
 async def _leave(ctx):
     await client.voice_clients[0].disconnect()
 
-client.run("Token")
+client.run("token")
