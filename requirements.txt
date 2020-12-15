@@ -2,7 +2,6 @@ discord.py==1.3.2
 datetime 
 openpyxl
 requests
-request
 location
 asyncio
 bs4
