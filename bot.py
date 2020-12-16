@@ -204,7 +204,7 @@ async def on_message(message):
         kartembed.add_field(name = "Recent Access", value = f'{recenty}년 '+f'{recentm}월 '+f'{recentd}일') #게임 최근 접속일 출력
         kartembed.add_field(name="TMI",value=f'[KartRiderTMI](https://tmi.nexon.com/kart/user?nick={nick})') #카트라이더 TMI 연결
         kartembed.set_footer(text="Source - NextHeroes\nLv2 S2 KartRiderClub NextLv's Bot") #만든 사람
-        embed.set_thumbnail(url = avatar2) #avatar.png 출력
+        kartembed.set_thumbnail(url = avatar2) #avatar.png 출력
         await message.channel.send(embed=kartembed) #embed
 ############롤 솔랭############        
     if message.content.startswith("!nh롤솔랭"):
