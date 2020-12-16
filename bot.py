@@ -2,6 +2,7 @@ import discord
 import datetime 
 import openpyxl
 import requests
+import request
 import location
 import asyncio
 import random
