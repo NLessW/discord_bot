@@ -61,6 +61,12 @@ async def on_message(message):
     if message.content.startswith("!nh안녕"):
         await message.channel.send("ㅎㅇ")
 
+    if message.content.startswith("!nh코로나"):
+        await message.channel.send("이 기능은 점검 중 입니다.")
+   
+    if message.content.startswith("!nh한강"):
+        await message.channel.send("이 기능은 점검 중 입니다.")
+
 ############핑 확인############
     if message.content.startswith("!nh ping"):
         latancy = client.latency
