@@ -5,8 +5,7 @@ requests
 location
 asyncio
 bs4
+BeautifulSoup
 youtube_dl
 urllib3
-random
-urllib
 git+https://github.com/Rapptz/discord.py
