@@ -312,7 +312,7 @@ async def on_message(message):
             i += 1
 
     if message.content.startswith("!nh건의"):
-        embed = discord.Embed(title="제작자에게 문의법", color0x900020)
+        embed = discord.Embed(title="제작자에게 문의법", color=0x900020)
         embed.add_field(name="디스코드", value=f'Peto#6092', inline=False)
         embed.add_field(name="카카오톡", value=f'qkqkhih', inline=False)
         await message.channel.send(embed=embed)
