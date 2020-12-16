@@ -7,4 +7,18 @@ asyncio
 bs4
 youtube_dl
 urllib3
+request
+random
+urllib
+
+from discord.ext import commands
+from openpyxl import load_workbook
+from bs4 import BeautifulSoup
+from urllib.request import urlopen, Request
+from datetime import datetime
+from discord.ext import commands
+from openpyxl import load_workbook
+from bs4 import BeautifulSoup
+from urllib.request import urlopen, Request
+from datetime import datetime
 git+https://github.com/Rapptz/discord.py
