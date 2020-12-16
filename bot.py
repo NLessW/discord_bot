@@ -105,7 +105,7 @@ async def on_message(message):
         embed.add_field(name="미세먼지", value=FineDust)
         embed.add_field(name="초미세먼지", value=UltraFineDust)
         embed.add_field(name="오존", value=Ozon)
-        embed.set_footer(text="Source - NextHeroes\nLv2 S2 KartRiderClub NextLv's Bot")
+        embed.set_footer(text="Source -EstelBlHero\nLv5 KartRider Club EsteBan Member EstelBlHero's bot")
         await message.channel.send(embed=embed)
 ############팀나누기############
     if message.content.startswith("!nh팀나누기"):
@@ -120,7 +120,7 @@ async def on_message(message):
         embed = discord.Embed(color=0x900020, title = "팀 나누기 결과")
         for i in range(0, len(person)):
             embed.add_field(name="결과", value=person[i] + " ----> " + teamname[i], inline = False)
-        embed.set_footer(text = "Source - NextHeroes\nLv2 S2 KartRiderClub NextLv's Bot")
+        embed.set_footer(text="Source -EstelBlHero\nLv5 KartRider Club EsteBan Member EstelBlHero's bot")
         await message.channel.send(embed=embed)
 
 ############주사위############
@@ -133,7 +133,7 @@ async def on_message(message):
         #await message.channel.send(str(dice))
         embed = discord.Embed(color=0x900020, title = "🎲주사위 굴리기🎲")
         embed.add_field(name=roll[1][2:]+"면체 주사위를 "+roll[1][:1]+"번 굴려 나온 주사위 합", value = str(dice))
-        embed.set_footer(text = "Source - NextHeroes\nLv2 S2 KartRiderClub NextLv's Bot")
+        embed.set_footer(text="Source -EstelBlHero\nLv5 KartRider Club EsteBan Member EstelBlHero's bot")
         await message.channel.send(embed=embed)
     
 ############카트############
@@ -203,7 +203,7 @@ async def on_message(message):
         kartembed.add_field(name = "Game Runs", value = gameon, inline = True) #게임 실행 횟수 출력
         kartembed.add_field(name = "Recent Access", value = f'{recenty}년 '+f'{recentm}월 '+f'{recentd}일') #게임 최근 접속일 출력
         kartembed.add_field(name="TMI",value=f'[KartRiderTMI](https://tmi.nexon.com/kart/user?nick={nick})') #카트라이더 TMI 연결
-        kartembed.set_footer(text="Source - NextHeroes\nLv2 S2 KartRiderClub NextLv's Bot") #만든 사람
+        kartembed.set_footer(text="Source -EstelBlHero\nLv5 KartRider Club EsteBan Member EstelBlHero's bot") #만든 사람
         kartembed.set_thumbnail(url = avatar2) #avatar.png 출력
         await message.channel.send(embed=kartembed) #embed
 ############롤 솔랭############        
@@ -247,7 +247,7 @@ async def on_message(message):
         lolembed.add_field(name = "티어", value = tier, inline = True)
         lolembed.add_field(name = "최근 랭크게임", value = recentrate+"\n"+recentwinlose, inline = True)            
         lolembed.set_thumbnail(url = medalimg)
-        lolembed.set_footer(text = update + "\nSource - NextHeroes\nLv2 S2 KartRiderClub NextLv's Bot")
+        lolembed.set_footer(text="Source -EstelBlHero\nLv5 KartRider Club EsteBan Member EstelBlHero's bot")
         await message.channel.send(embed = lolembed)
     
 ############롤 언랭############
@@ -279,7 +279,7 @@ async def on_message(message):
         lolembed.add_field(name = "레벨", value = f'{level}레벨', inline = True)
         lolembed.add_field(name = "최근 20게임 전적", value = f'{win}승 ' +"/ "+ f'{lose}패', inline = True)
         lolembed.add_field(name = "랭크를 돌립시다!", value = "랭크가 생기면 더 많은 정보를 받아올 수 있어요!", inline = False)
-        lolembed.set_footer(text=update + "\nSource - NextHeroes\nLv2 S2 KartRiderClub NextLv's Bot")
+        lolembed.set_footer(text="Source -EstelBlHero\nLv5 KartRider Club EsteBan Member EstelBlHero's bot")
         lolembed.set_thumbnail(url = medalimg)
         await message.channel.send(embed = lolembed)
 
