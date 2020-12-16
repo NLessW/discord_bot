@@ -1,1 +1,1 @@
-worker: python -m NexHebot
+worker: python -m bot.py
