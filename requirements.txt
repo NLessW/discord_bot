@@ -7,7 +7,6 @@ asyncio
 bs4
 youtube_dl
 urllib3
-request
 random
 urllib
 git+https://github.com/Rapptz/discord.py
