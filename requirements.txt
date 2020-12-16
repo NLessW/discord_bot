@@ -7,4 +7,5 @@ asyncio
 youtube_dl
 urllib3
 beautifulsoup4
+lxml
 git+https://github.com/Rapptz/discord.py
