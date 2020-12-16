@@ -38,6 +38,7 @@ async def on_message(message):
 
     if message.content.startswith("!nh help 1"):
         embed = discord.Embed(color=0x900020, title = '1 페이지')
+        embed.add_field(name="봇 기능 건의 및 문의", value = "명령어 : !nh건의\n건의나 버그 신고 및 문의를 하는 제작자연락처가 나옵니다.", inline = False)
         embed.add_field(name="업데이트", value = "명령어 : !nh업데이트\n최신 업데이트 1개를 보여줍니다.", inline = False)
         embed.add_field(name="인사", value = "명령어 : !nh안녕\n인사를 해줍니다.", inline = False)
         embed.add_field(name="봇 핑 확인", value = "명령어 : !nh ping\n봇의 전송속도 핑을 보여줍니다.", inline = False)
