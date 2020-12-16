@@ -311,6 +311,12 @@ async def on_message(message):
                 break
             i += 1
 
+    if message.content.startswith("!nh건의"):
+        embed = discord.Embed(title="제작자에게 문의법", color0x900020)
+        embed.add_field(name="디스코드", value=f'Peto#6092', inline=False)
+        embed.add_field(name="카카오톡", value=f'qkqkhih', inline=False)
+        await message.channel.send(embed=embed)
+
     if message.content.startswith("!nh설정"):
         channel = int(message.content[6:26])
         file = openpyxl.load_workbook("서버목록.xlsx")
@@ -329,7 +335,7 @@ async def on_message(message):
                 await message.channel.send("정상적으로 설정되었습니다!")
                 break
             i += 1
- 
+     
     
 @client.command(name="재생", pass_context=True)
 async def _join(ctx):
