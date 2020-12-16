@@ -338,4 +338,4 @@ async def _leave(ctx):
     await client.voice_clients[0].disconnect()
 
 
-bot.run(os.environ["token"])
+client.run(os.environ["token"])
