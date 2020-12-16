@@ -7,4 +7,4 @@ asyncio
 bs4
 youtube_dl
 urllib3
-https://github.com/nextheroes/bot.py
+git+https://github.com/nextheroes/-/blob/master/bot.py
