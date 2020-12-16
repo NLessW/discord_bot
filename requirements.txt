@@ -5,7 +5,6 @@ requests
 location
 asyncio
 bs4
-BeautifulSoup
 youtube_dl
 urllib3
 discord
