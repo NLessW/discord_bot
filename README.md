@@ -1,7 +1,7 @@
 Discord Bot
 NextHeroes Bot
 
-Function\n
+Function
 PC KartRider Total
 Search Republic Of Korea Area Weather
 Covid-19 Status
