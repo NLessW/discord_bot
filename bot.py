@@ -2,6 +2,7 @@ import discord
 import datetime 
 import openpyxl
 import requests
+import request
 import location
 import asyncio
 import random
@@ -418,6 +419,5 @@ async def _join(ctx):
 @client.command(name="연결끊기")
 async def _leave(ctx):
     await client.voice_clients[0].disconnect()
-
 
 client.run(os.environ["token"])
