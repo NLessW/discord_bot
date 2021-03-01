@@ -2,6 +2,7 @@ discord.py==1.5.1
 datetime 
 openpyxl
 requests
+request
 location
 asyncio
 youtube_dl
