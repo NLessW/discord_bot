@@ -175,20 +175,6 @@ async def on_message(message):
         embed.set_footer(text = "Source - NextHeroes\nLv2 S2 KartRiderClub NextLv's Bot")
         await message.channel.send(embed=embed)
 
-############한강############
-    if message.content.startswith("!nh한강"):
-        response = requests.get('https://hangang.life/')
-        readerhtml = response.text
-        soup = BeautifulSoup(readerhtml, 'lxml')
-        tempdata1 = soup.find('h1', {'class' : 'white'}).text
-        tempdatatime = soup.findAll('font')
-        datam = tempdatatime[1].text[:13]        
-        embed = discord.Embed(color=0x900020, title = "💧현재 한강의 온도💧")
-        embed.add_field(name="🌡온도", value=tempdata1, inline = False)
-        embed.add_field(name="⌛측정 시간", value=datam, inline = False)
-        embed.set_footer(text="📞자살예방상담전화 : 1393\nSource - EstelBlHERO")
-        await message.channel.send(embed=embed)
-
 ############주사위############
     if message.content.startswith("!nh주사위"):
         roll = message.content.split(" ")
