@@ -16,7 +16,6 @@ from bs4 import BeautifulSoup
 from urllib.request import urlopen, Request
 from datetime import datetime
 
-client = commands.Bot(command_prefix='!nh') 
 
 ############봇 상태############
 @client.event 
@@ -389,20 +388,5 @@ async def on_message(message):
 
         await message.channel.send(embed=embed)
 
-
-    
-    
-@client.command(name="재생", pass_context=True)
-async def _join(ctx):
-    if ctx.author.voice and ctx.author.voice.channel:
-        channel = ctx.author.voice.channel
-        await channel.connect()
-    else:
-        await ctx.send("채널에 연결되지 않았습니다.")
-
-    
-@client.command(name="연결끊기")
-async def _leave(ctx):
-    await client.voice_clients[0].disconnect()
 
 client.run(os.environ["token"])
