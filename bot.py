@@ -16,7 +16,7 @@ from bs4 import BeautifulSoup
 from urllib.request import urlopen, Request
 from datetime import datetime
 
-client = discord.Client()
+client = commands.Bot(command_prefix='!nh', intents=intents)
 ############봇 상태############
 @client.event 
 async def on_ready():
