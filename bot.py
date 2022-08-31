@@ -16,6 +16,8 @@ from bs4 import BeautifulSoup
 from urllib.request import urlopen, Request
 from datetime import datetime
 
+intents = discord.Intents.default()
+intents.message_content = True
 client = commands.Bot(command_prefix='!nh', intents=intents)
 ############봇 상태############
 @client.event 
