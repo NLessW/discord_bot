@@ -77,7 +77,7 @@ async def on_message(message):
         embed.add_field(name="서버 닉네임", value=message.author.display_name, inline=False)
         embed.add_field(name="가입일", value=str(date.year) + "년" + str(date.month) + "월 " + str(date.day) + "일", inline=False)
         embed.add_field(name="ID", value=message.author.id, inline=False)
-        embed.set_thumbnail(url=message.author.avatar_url)
+        embed.set_thumbnail(url=message.User.avatar)
         await message.channel.send(embed=embed)
 
 ############말 가르치기############
