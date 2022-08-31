@@ -34,7 +34,7 @@ async def on_message(message):
 
 ############도움말############
     if message.content.startswith("!nh help") and not message.content.startswith("!nh help 1") and not message.content.startswith("!nh help 2"):
-        embed = discord.Embed(color = 0x900020, title = "!nh help (페이지 1, 2선택)" , desciption = "도움말이 많아 2페이지로 나누었습니다.")
+        embed = discord.Embed(color = 0x900020, title = "!nh help (페이지 1, 2선택)" , description = "도움말이 많아 2페이지로 나누었습니다.")
         await message.channel.send(embed=embed)
 
     if message.content.startswith("!nh help 1"):
